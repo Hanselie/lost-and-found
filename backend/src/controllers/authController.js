@@ -35,7 +35,7 @@ const login = async (req, res, next) => {
     res.cookie('token', token, {
       httpOnly: true,
       secure: isProduction,
-      sameSite: 'strict',
+      sameSite: isProduction ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
     });
 
@@ -56,10 +56,11 @@ const login = async (req, res, next) => {
  * Clear the JWT cookie.
  */
 const logout = async (req, res) => {
+  const isProduction = process.env.NODE_ENV === 'production';
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
   });
 
   return successResponse(res, 'Logout berhasil.');
