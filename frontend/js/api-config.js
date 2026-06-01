@@ -12,7 +12,7 @@
 
 var API_CONFIG = (function () {
   // ⬇️ GANTI URL INI dengan URL backend Render kamu setelah deploy
-  var PRODUCTION_API_URL = 'https://YOUR-RENDER-BACKEND.onrender.com/api';
+  var PRODUCTION_API_URL = 'https://lost-and-found-backend-delta.vercel.app/api';
 
   var isLocalhost = window.location.hostname === 'localhost' ||
                     window.location.hostname === '127.0.0.1';
