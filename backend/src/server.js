@@ -8,8 +8,10 @@ app.listen(PORT, () => {
   console.log(`📦 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log('');
 
-  // Initialize the daily expiry cron job
-  initExpiryJob();
+  // Initialize the daily expiry cron job (skip when running on Vercel serverless)
+  if (!process.env.VERCEL) {
+    initExpiryJob();
+  }
 
   console.log('');
   console.log('✅ Backend is ready!\n');

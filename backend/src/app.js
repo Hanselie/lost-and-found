@@ -9,6 +9,7 @@ const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const itemRoutes = require('./routes/itemRoutes');
+const cronRoutes = require('./routes/cronRoutes');
 const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
@@ -68,6 +69,7 @@ app.use(cookieParser());
 // ─── API routes ───
 app.use('/api/auth', authLimiter, authRoutes);
 app.use('/api/items', itemRoutes);
+app.use('/api/cron', cronRoutes);
 
 // ─── Serve frontend static files ───
 const frontendPath = path.join(__dirname, '..', '..', 'frontend');

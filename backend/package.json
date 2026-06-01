@@ -7,6 +7,7 @@
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "build": "npx prisma generate && npx prisma db push",
+    "vercel-build": "prisma generate",
     "seed": "node src/utils/seed.js",
     "prisma:generate": "npx prisma generate",
     "prisma:push": "npx prisma db push",
