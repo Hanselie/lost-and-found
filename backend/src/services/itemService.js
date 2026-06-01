@@ -79,12 +79,22 @@ const getItemById = async (id) => {
 };
 
 /**
- * Create a new item. Automatically sets expires_at to date_found + 30 days.
+ * Returns expiry duration in days based on item category.
+ * Makanan (food) expires in 1 day; all other categories expire in 30 days.
+ */
+const getExpiryDays = (category) => {
+  return category === 'Makanan' ? 1 : 30;
+};
+
+/**
+ * Create a new item. Automatically sets expires_at based on category:
+ * - Makanan: date_found + 1 day
+ * - Others:  date_found + 30 days
  */
 const createItem = async (data) => {
   const dateFound = new Date(data.date_found);
   const expiresAt = new Date(dateFound);
-  expiresAt.setDate(expiresAt.getDate() + 30);
+  expiresAt.setDate(expiresAt.getDate() + getExpiryDays(data.category));
 
   const item = await prisma.item.create({
     data: {
@@ -106,22 +116,20 @@ const createItem = async (data) => {
  * Update an existing item by ID.
  */
 const updateItem = async (id, data) => {
+  // Always recalculate expires_at — date_found and category are required fields
+  const dateFound = new Date(data.date_found);
+  const expiresAt = new Date(dateFound);
+  expiresAt.setDate(expiresAt.getDate() + getExpiryDays(data.category));
+
   const updateData = {
     title: data.title,
     category: data.category,
     building: data.building,
     location_detail: data.location_detail,
-    date_found: new Date(data.date_found),
+    date_found: dateFound,
+    expires_at: expiresAt,
     internal_note: data.internal_note !== undefined ? data.internal_note : undefined,
   };
-
-  // Recalculate expires_at if date_found changed
-  if (data.date_found) {
-    const dateFound = new Date(data.date_found);
-    const expiresAt = new Date(dateFound);
-    expiresAt.setDate(expiresAt.getDate() + 30);
-    updateData.expires_at = expiresAt;
-  }
 
   // Remove undefined keys
   Object.keys(updateData).forEach((key) => {
