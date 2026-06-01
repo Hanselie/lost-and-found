@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Dashboard - BINUS Lost and Found System">
+  <title>Dashboard Admin - BINA NUSANTARA Lost &amp; Found</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Feather Icons CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="public-body">
+
+  <div class="page-container" style="max-width: 1200px;">
+    <!-- Header/Logo area -->
+    <header class="page-header">
+      <div class="logo-area">
+        <img src="assets/binus-ribbon.png" alt="BINUS Ribbon" class="binus-ribbon">
+        <img src="assets/binus-university-logo-design-symbol2.png" alt="BINUS University Logo" class="binus-logo">
+      </div>
+      <div class="header-links" style="display: flex; gap: 8px;">
+        <a href="index.html" class="admin-link">Lihat Publik</a>
+        <button id="logoutBtn" class="admin-link" style="background: none; cursor: pointer;">Logout</button>
+      </div>
+    </header>
+
+    <!-- Title Banner -->
+    <section class="title-banner">
+      <h1>Dashboard Admin - Lost &amp; Found</h1>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content" style="padding: 0;">
+      <!-- Dashboard Section -->
+      <section class="dashboard-section" style="margin-bottom: 30px;">
+        <h2 class="section-title" style="color: #005689; font-size: 20px; border-bottom: 2px solid #efefef; padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+          <i data-feather="bar-chart-2" style="width: 22px; height: 22px; color: #005689;">&#128202;</i> Ringkasan
+        </h2>
+
+        <!-- Top Layout Grid: 2x2 Stats on Left, Pie Chart on Right -->
+        <div class="dashboard-top-layout" style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+          
+          <!-- Stats Grid (2x2) -->
+          <div class="stats-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 0;">
+            <div class="stat-card stat-total">
+              <div class="stat-icon"><i data-feather="archive">&#128230;</i></div>
+              <div class="stat-info">
+                <h3 id="totalCount">0</h3>
+                <p>Total Barang</p>
+              </div>
+            </div>
+            <div class="stat-card stat-available">
+              <div class="stat-icon"><i data-feather="check-circle">&#9989;</i></div>
+              <div class="stat-info">
+                <h3 id="availableCount">0</h3>
+                <p>Tersedia</p>
+              </div>
+            </div>
+            <div class="stat-card stat-returned">
+              <div class="stat-icon"><i data-feather="user-check">&#128229;</i></div>
+              <div class="stat-info">
+                <h3 id="returnedCount">0</h3>
+                <p>Dikembalikan</p>
+              </div>
+            </div>
+            <div class="stat-card stat-expired">
+              <div class="stat-icon"><i data-feather="alert-triangle">&#9888;&#65039;</i></div>
+              <div class="stat-info">
+                <h3 id="expiredCount">0</h3>
+                <p>Kadaluarsa</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart Card -->
+          <div class="chart-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; box-sizing: border-box;">
+            <h3 style="font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px; width: 100%; text-align: left; display: flex; align-items: center; gap: 6px;">
+              <i data-feather="pie-chart" style="width: 16px; height: 16px; color: #005689;"></i> Distribusi Status
+            </h3>
+            <div style="width: 140px; height: 140px; position: relative;">
+              <canvas id="statusChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Analytics Section -->
+      <section class="dashboard-section" style="margin-bottom: 30px;">
+        <h2 class="section-title" style="color: #005689; font-size: 20px; border-bottom: 2px solid #efefef; padding-bottom: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+          <i data-feather="trending-up" style="width: 22px; height: 22px; color: #005689;"></i> Analisa Data
+        </h2>
+
+        <div class="analytics-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 20px;">
+          
+          <!-- Card 1: Trend Line Chart -->
+          <div class="analytics-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; box-sizing: border-box;">
+            <h3 style="font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 6px;">
+              <i data-feather="activity" style="width: 16px; height: 16px; color: #005689;"></i> Trend Penemuan per Bulan
+            </h3>
+            <div style="flex: 1; position: relative; height: 180px;">
+              <canvas id="trendChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Card 2: Top Kategori (Horizontal Bar) & Recovery Rate -->
+          <div class="analytics-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; box-sizing: border-box;">
+            <h3 style="font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              <i data-feather="award" style="width: 16px; height: 16px; color: #005689;"></i> Kategori Terbanyak &amp; Recovery Rate
+            </h3>
+            <div style="flex: 1; position: relative; height: 120px; margin-bottom: 12px;">
+              <canvas id="categoryChart"></canvas>
+            </div>
+            <!-- Recovery Rate Banner -->
+            <div style="background-color: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); padding: 10px; border-radius: 4px; display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11px; font-weight: 600; color: #065f46;">Recovery Rate Pengembalian</span>
+              <span id="recoveryRateText" style="font-size: 16px; font-weight: bold; color: #10b981;">0%</span>
+            </div>
+          </div>
+
+          <!-- Card 3: Distribusi Gedung (Bar Chart) -->
+          <div class="analytics-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 280px; box-sizing: border-box;">
+            <h3 style="font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px; display: flex; align-items: center; gap: 6px;">
+              <i data-feather="map-pin" style="width: 16px; height: 16px; color: #005689;"></i> Penemuan per Gedung
+            </h3>
+            <div style="flex: 1; position: relative; height: 180px;">
+              <canvas id="buildingChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Items Management Section -->
+      <section class="dashboard-section">
+        <div class="dashboard-toolbar" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #efefef; padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+          <h2 class="section-title" style="color: #005689; font-size: 20px; margin: 0; display: flex; align-items: center; gap: 8px;">
+            <i data-feather="database" style="width: 22px; height: 22px; color: #005689;">&#128196;</i> Kelola Barang
+          </h2>
+          <div class="toolbar-actions" style="display: flex; gap: 15px; align-items: center;">
+            <div class="filter-group" style="display: flex; flex-direction: row; align-items: center; gap: 8px; margin: 0;">
+              <label for="adminSearchInput" style="margin: 0; font-weight: bold; font-size: 14px; text-transform: none;">Cari:</label>
+              <input type="text" id="adminSearchInput" placeholder="Cari nama, gedung, kategori, ID..." style="padding: 6px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; background-color: #fff; min-width: 180px;">
+            </div>
+            <div class="filter-group" style="display: flex; flex-direction: row; align-items: center; gap: 8px; margin: 0;">
+              <label for="adminStatusFilter" style="margin: 0; font-weight: bold; font-size: 14px; text-transform: none;">Status:</label>
+              <select id="adminStatusFilter" style="padding: 6px 30px 6px 12px; border-radius: 4px; border: 1px solid #ccc; font-size: 14px; background-color: #fff; appearance: none; min-width: 150px; background-image: url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E&quot;); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer;">
+                <option value="">Semua Status</option>
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="RETURNED">RETURNED</option>
+                <option value="EXPIRED">EXPIRED</option>
+              </select>
+            </div>
+            <button class="btn" id="addItemBtn">
+              <i data-feather="plus" style="width: 16px; height: 16px;">&#10133;</i> Tambah Barang
+            </button>
+          </div>
+        </div>
+
+        <!-- Admin Items Table Wrapper -->
+        <div class="table-wrapper admin-table" style="overflow-x: auto;">
+          <table id="adminTable">
+            <thead>
+              <tr>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">ID</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Barang</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Kategori</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Gedung</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Lokasi Detail</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Waktu Ditemukan</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Status</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Catatan</th>
+                <th style="background-color: #d9d9d9; color: #333; font-weight: bold; border: 1px solid #c0c0c0; text-transform: none; font-size: 14px;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody">
+              <!-- Populated by JavaScript -->
+            </tbody>
+          </table>
+
+          <!-- Empty State -->
+          <div id="adminEmptyState" class="empty-state" style="display: none;">
+            <p>Belum ada barang terdaftar.</p>
+            <button class="btn btn-accent mt-2" onclick="openModal()" style="background-color: #28a745; border-color: #28a745; border-radius: 4px; display: inline-flex; align-items: center; gap: 6px;">
+              <i data-feather="plus" style="width: 16px; height: 16px;"></i> Tambah Barang Pertama
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div id="adminLoadingState" class="loading-state">
+            <div class="simple-spinner"></div>
+            <p>Memuat data...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Add/Edit Item Modal -->
+  <div class="modal-overlay" id="itemModal">
+    <div class="modal" style="border-radius: 4px;">
+      <div class="modal-header" style="background-color: #f7f7f7; border-bottom: 1px solid #e0e0e0; padding: 15px 20px;">
+        <h3 id="modalTitle" style="color: #005689; font-weight: bold; font-size: 18px; margin: 0;">Tambah Barang</h3>
+        <button class="modal-close" id="modalCloseBtn" aria-label="Close modal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 20px;">
+        <form id="itemForm" novalidate>
+          <div class="form-group">
+            <label for="itemTitle">Nama Barang <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="itemTitle" name="title" placeholder="Contoh: Dompet hitam" required style="border-radius: 4px;">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="itemCategory">Kategori <span style="color: var(--danger);">*</span></label>
+              <select id="itemCategory" name="category" required style="border-radius: 4px;">
+                <option value="">Pilih Kategori</option>
+                <option value="Elektronik">Elektronik</option>
+                <option value="Tas">Tas</option>
+                <option value="Pakaian">Pakaian</option>
+                <option value="Dokumen">Dokumen</option>
+                <option value="Botol Minum">Botol Minum</option>
+                <option value="Aksesoris">Aksesoris</option>
+                <option value="Lainnya">Lainnya</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="itemBuilding">Gedung <span style="color: var(--danger);">*</span></label>
+              <select id="itemBuilding" name="building" required style="border-radius: 4px;">
+                <option value="">Pilih Gedung</option>
+                <option value="Anggrek">Anggrek</option>
+                <option value="Syahdan">Syahdan</option>
+                <option value="Kijang">Kijang</option>
+                <option value="Alam Sutera">Alam Sutera</option>
+                <option value="Alam Sutera ASO/BASE">Alam Sutera ASO/BASE</option>
+                <option value="Bandung">Bandung</option>
+                <option value="Malang">Malang</option>
+                <option value="Bekasi">Bekasi</option>
+                <option value="Senayan">Senayan</option>
+                <option value="Semarang">Semarang</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="itemLocation">Lokasi Detail <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="itemLocation" name="location_detail" placeholder="Contoh: Lantai 3, Ruang 301" required style="border-radius: 4px;">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="itemDate">Tanggal Ditemukan <span style="color: var(--danger);">*</span></label>
+              <input type="datetime-local" id="itemDate" name="date_found" required style="border-radius: 4px;">
+            </div>
+            <div class="form-group">
+              <label for="itemStatus">Status</label>
+              <select id="itemStatus" name="status" style="border-radius: 4px;">
+                <option value="AVAILABLE">AVAILABLE</option>
+                <option value="RETURNED">RETURNED</option>
+                <option value="EXPIRED">EXPIRED</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="itemNote">Catatan Internal</label>
+            <textarea id="itemNote" name="internal_note" placeholder="Catatan tambahan untuk admin (opsional)" rows="3" style="border-radius: 4px;"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style="background-color: #f7f7f7; border-top: 1px solid #e0e0e0; padding: 15px 20px;">
+        <button class="btn btn-outline" id="modalCancelBtn" style="border-radius: 4px;">Batal</button>
+        <button class="btn btn-primary" id="modalSubmitBtn" style="background-color: #005689; border-color: #005689; border-radius: 4px;">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/fuzzy-search.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

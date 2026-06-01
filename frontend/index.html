@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BINUS Lost and Found - Daftar barang hilang dan ditemukan di kampus BINA NUSANTARA">
+  <title>Lost &amp; Found - BINA NUSANTARA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="public-body">
+
+  <div class="page-container">
+    <!-- Header/Logo area -->
+    <header class="page-header">
+      <div class="logo-area">
+        <img src="assets/binus-ribbon.png" alt="BINUS Ribbon" class="binus-ribbon">
+        <img src="assets/binus-university-logo-design-symbol2.png" alt="BINUS University Logo" class="binus-logo">
+      </div>
+      <div class="header-links">
+        <a href="admin-login.html" class="admin-link">Login Admin</a>
+      </div>
+    </header>
+
+    <!-- Title Banner -->
+    <section class="title-banner">
+      <h1>Daftar Barang Hilang</h1>
+    </section>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <div class="filter-group-inline search-bar-group">
+        <label for="searchInput">Cari Barang</label>
+        <input type="text" id="searchInput" placeholder="Cari nama, gedung, kategori..." style="padding: 8px 12px; font-size: 15px; border: 1px solid #cccccc; border-radius: 0; width: 250px; background-color: #ffffff;">
+      </div>
+      <div class="filter-group-inline">
+        <label for="buildingFilter">Gedung</label>
+        <select id="buildingFilter">
+          <option value="" selected>Semua Gedung</option>
+          <option value="Anggrek">Anggrek</option>
+          <option value="Syahdan">Syahdan</option>
+          <option value="Kijang">Kijang</option>
+          <option value="Alam Sutera">Alam Sutera</option>
+          <option value="Alam Sutera ASO/BASE">Alam Sutera ASO/BASE</option>
+          <option value="Bandung">Bandung</option>
+          <option value="Malang">Malang</option>
+          <option value="Bekasi">Bekasi</option>
+          <option value="Senayan">Senayan</option>
+          <option value="Semarang">Semarang</option>
+        </select>
+      </div>
+      <!-- Hidden category input to keep js compatibility -->
+      <select id="categoryFilter" style="display: none;">
+        <option value="">Semua Kategori</option>
+      </select>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-wrapper">
+      <table id="itemsTable">
+        <thead>
+          <tr>
+            <th class="col-barang">Barang</th>
+            <th class="col-lokasi">Lokasi</th>
+            <th class="col-waktu">Waktu ditemukan</th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody">
+          <!-- Populated by JavaScript -->
+        </tbody>
+      </table>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <p>Tidak ada data barang hilang di gedung ini.</p>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="loading-state">
+        <div class="simple-spinner"></div>
+        <p>Memuat data...</p>
+      </div>
+    </div>
+
+    <!-- Red Banner Footer (Terms & Conditions) -->
+    <footer class="terms-footer">
+      <div class="red-banner">
+        <h3>Syarat dan ketentuan pengambilan barang :</h3>
+        <ol>
+          <li>Untuk pengambilan barang dapat langsung menemui BM Gedung terkait dengan membawa foto copy Binusian Card (1 lembar)</li>
+          <li>Batas waktu penyimpanan barang lost and found selama 30 hari kerja dan 1 hari kerja untuk makanan</li>
+          <li>Jam Operasional Pengambilan :
+            <div class="schedule-info">
+              <span>Senin - Jumat &nbsp;&nbsp;&nbsp;&nbsp; 09.00 – 17.00</span>
+              <span>Sabtu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 09.00 – 12.00</span>
+            </div>
+          </li>
+        </ol>
+        <p class="phone-info">Tlp (021) 53696969 Ext. 1007</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/fuzzy-search.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

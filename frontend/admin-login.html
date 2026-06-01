@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Admin Login - BINUS Lost and Found System">
+  <title>Admin Login - BINA NUSANTARA Lost &amp; Found</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="public-body">
+
+  <div class="page-container">
+    <!-- Header/Logo area -->
+    <header class="page-header">
+      <div class="logo-area">
+        <img src="assets/binus-ribbon.png" alt="BINUS Ribbon" class="binus-ribbon">
+        <img src="assets/binus-university-logo-design-symbol2.png" alt="BINUS University Logo" class="binus-logo">
+      </div>
+      <div class="header-links">
+        <a href="index.html" class="admin-link">Kembali</a>
+      </div>
+    </header>
+
+    <!-- Title Banner -->
+    <section class="title-banner">
+      <h1>Login Administrator</h1>
+    </section>
+
+    <!-- Login Card Inside Theme Wrapper -->
+    <div class="login-wrapper" style="min-height: unset; padding: 20px 0 40px 0;">
+      <div class="login-card" style="box-shadow: 0 4px 10px rgba(0,0,0,0.06); border: 1px solid #eee; margin: 0 auto;">
+        <h2 style="color: #005689; text-align: center; margin-bottom: 5px;">Admin Login</h2>
+        <p class="login-subtitle" style="text-align: center; margin-bottom: 25px; color: #666; font-size: 14px;">Masuk untuk mengelola barang temuan</p>
+
+        <!-- Error Alert -->
+        <div id="loginError" class="alert alert-error"></div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="admin@binus.ac.id" required autocomplete="email" style="border-radius: 4px;">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Masukkan password" required autocomplete="current-password" style="border-radius: 4px;">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" id="loginBtn" style="background-color: #005689; border-color: #005689; border-radius: 4px; padding: 12px; font-weight: bold; width: 100%;">
+            Masuk
+          </button>
+        </form>
+
+        <div class="login-footer" style="text-align: center; margin-top: 20px;">
+          <a href="index.html" style="color: #005689; font-size: 14px; text-decoration: none;">&larr; Kembali ke halaman utama</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-config.js"></script>
+  <script src="js/admin-login.js"></script>
+</body>
+</html>
