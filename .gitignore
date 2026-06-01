@@ -1,0 +1,20 @@
+# ─── Environment Variables ───
+.env
+.env.local
+.env.production
+.env.*
+
+# ─── Dependencies ───
+node_modules/
+
+# ─── Logs ───
+*.log
+npm-debug.log*
+
+# ─── OS Files ───
+.DS_Store
+Thumbs.db
+
+# ─── Build Output ───
+dist/
+build/
