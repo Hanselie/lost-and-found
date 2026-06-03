@@ -59,7 +59,7 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-app.use(generalLimiter);
+app.use('/api', generalLimiter);
 
 // ─── Body parsing ───
 app.use(express.json({ limit: '10mb' }));

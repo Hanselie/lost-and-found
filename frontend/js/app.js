@@ -10,6 +10,7 @@ const API_BASE = API_CONFIG.API_BASE;
 
 // ── State ──
 let allItems = [];
+let currentUser = null;
 
 // ── DOM Elements ──
 const searchInput = document.getElementById('searchInput');
@@ -21,13 +22,87 @@ const loadingState = document.getElementById('loadingState');
 const itemsTable = document.getElementById('itemsTable');
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
+const loginPrompt = document.getElementById('loginPrompt');
+const interactiveContent = document.getElementById('interactiveContent');
+const headerLinks = document.getElementById('headerLinks');
 
 // ── Initialization ──
 document.addEventListener('DOMContentLoaded', init);
 
 async function init() {
   setupEventListeners();
-  await fetchItems();
+  await checkSession();
+}
+
+async function checkSession() {
+  try {
+    const res = await fetch(API_BASE + '/auth/user/check', {
+      credentials: 'include'
+    });
+
+    if (res.ok) {
+      const json = await res.json();
+      if (json.success) {
+        currentUser = json.data.user;
+        showInteractiveMode();
+        await fetchItems();
+        return;
+      }
+    }
+  } catch (err) {
+    console.error('Session check error:', err);
+  }
+
+  showLoginPromptMode();
+}
+
+function showInteractiveMode() {
+  if (loginPrompt) loginPrompt.style.display = 'none';
+  if (interactiveContent) interactiveContent.style.display = 'block';
+  
+  if (headerLinks && currentUser) {
+    headerLinks.innerHTML = `
+      <span class="user-welcome" style="margin-right: 15px; font-weight: 500; color: #35256b;">Halo, ${escapeHtml(currentUser.username)}!</span>
+      <a href="#" class="admin-link" id="userLogoutBtn" style="background-color: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; padding: 6px 12px; border-radius: 4px; font-size: 14px; text-decoration: none;">Logout</a>
+    `;
+    
+    const userLogoutBtn = document.getElementById('userLogoutBtn');
+    if (userLogoutBtn) {
+      userLogoutBtn.addEventListener('click', handleUserLogout);
+    }
+  }
+}
+
+function showLoginPromptMode() {
+  if (loginPrompt) loginPrompt.style.display = 'flex';
+  if (interactiveContent) interactiveContent.style.display = 'none';
+  
+  if (headerLinks) {
+    headerLinks.innerHTML = `
+      <a href="admin-login.html" class="admin-link" id="adminLoginLink">Login Admin</a>
+    `;
+  }
+}
+
+async function handleUserLogout(e) {
+  if (e) e.preventDefault();
+  
+  try {
+    const res = await fetch(API_BASE + '/auth/user/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+    
+    if (res.ok) {
+      currentUser = null;
+      window.location.reload();
+    } else {
+      alert('Gagal logout. Silakan coba lagi.');
+    }
+  } catch (err) {
+    console.error('Logout error:', err);
+    alert('Terjadi kesalahan koneksi.');
+  }
 }
 
 // ── Fetch Items from API ──
@@ -37,7 +112,9 @@ async function fetchItems() {
   hideEmptyState();
 
   try {
-    const res = await fetch(API_BASE + '/items');
+    const res = await fetch(API_BASE + '/items', {
+      credentials: 'include'
+    });
 
     if (!res.ok) {
       throw new Error('Server error: ' + res.status);

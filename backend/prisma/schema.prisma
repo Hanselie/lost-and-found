@@ -17,6 +17,16 @@ model Admin {
   @@map("admins")
 }
 
+model User {
+  id            Int      @id @default(autoincrement())
+  username      String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+
+  @@map("users")
+}
+
 enum ItemStatus {
   AVAILABLE
   RETURNED

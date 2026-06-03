@@ -53,7 +53,30 @@ async function main() {
         password_hash: branchHash,
       },
     });
-    console.log(`✅ Branch Admin seeded: ${seededBranch.username} (${seededBranch.email})`);
+  }
+
+  // ─── Seed Dummy Users ───
+  const dummyUsers = [
+    { username: 'Mahasiswa 1', email: 'user1@binus.ac.id', password: 'user123' },
+    { username: 'Mahasiswa 2', email: 'user2@binus.ac.id', password: 'user123' },
+    { username: 'Mahasiswa 3', email: 'user3@binus.ac.id', password: 'user123' },
+    { username: 'Mahasiswa 4', email: 'user4@binus.ac.id', password: 'user123' },
+    { username: 'Mahasiswa 5', email: 'user5@binus.ac.id', password: 'user123' },
+  ];
+
+  await prisma.user.deleteMany({});
+  console.log('🗑️  Existing users cleared.');
+
+  for (const dummyUser of dummyUsers) {
+    const userHash = await bcrypt.hash(dummyUser.password, 10);
+    const seededUser = await prisma.user.create({
+      data: {
+        username: dummyUser.username,
+        email: dummyUser.email,
+        password_hash: userHash,
+      },
+    });
+    console.log(`✅ Dummy User seeded: ${seededUser.username} (${seededUser.email})`);
   }
 
   // ─── Clear existing items ───

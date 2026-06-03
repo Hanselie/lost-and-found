@@ -1967,6 +1967,84 @@ textarea:focus {
   font-family: var(--font-family) !important;
   color: #475569 !important;
 }
+/* User Authentication UI and Login Prompt */
+.login-prompt-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 40px 20px;
+}
 
+.login-prompt-card {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 10px 30px rgba(0, 86, 137, 0.08) !important;
+  padding: 40px !important;
+  max-width: 450px !important;
+  width: 100% !important;
+  text-align: center !important;
+}
 
+.lock-icon-wrapper {
+  background: rgba(0, 86, 137, 0.06) !important;
+  width: 72px;
+  height: 72px;
+  border-radius: 50% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px auto !important;
+}
 
+.lock-icon {
+  width: 32px;
+  height: 32px;
+  color: #005689 !important;
+}
+
+.login-prompt-card h2 {
+  font-family: var(--font-display) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  color: #35256b !important;
+  margin-bottom: 12px !important;
+}
+
+.login-prompt-card p {
+  font-family: var(--font-family) !important;
+  font-size: 15px !important;
+  color: #475569 !important;
+  line-height: 1.5 !important;
+  margin-bottom: 28px !important;
+}
+
+.login-prompt-btn {
+  background-color: #005689 !important;
+  border-color: #005689 !important;
+  color: #ffffff !important;
+  border-radius: 6px !important;
+  padding: 12px 24px !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  transition: all 0.2s ease !important;
+}
+
+.login-prompt-btn:hover {
+  background-color: #00456e !important;
+  border-color: #00456e !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 12px rgba(0, 86, 137, 0.2) !important;
+}
+
+.user-welcome {
+  font-family: var(--font-family) !important;
+  font-size: 14px !important;
+}

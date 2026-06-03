@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const itemController = require('../controllers/itemController');
 const auth = require('../middleware/auth');
+const userAuth = require('../middleware/userAuth');
 const { validateItemInput } = require('../middleware/validator');
 
-// PUBLIC
-router.get('/', itemController.getItems);
+// PUBLIC (Requires User Login or Admin Access)
+router.get('/', userAuth, itemController.getItems);
 
 // ADMIN – specific routes BEFORE /:id to avoid param conflicts
 router.get('/admin', auth, itemController.getItemsAdmin);
