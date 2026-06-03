@@ -526,11 +526,12 @@ function handleEdit(id) {
 // ── Handle Mark as Returned ──
 // This is the main workflow: admin verifies owner in person, then marks as returned
 async function handleMarkReturned(id) {
-  var confirmed = confirm(
-    'Apakah barang sudah diverifikasi dan diserahkan kepada pemiliknya?\n\n' +
-    'Klik OK untuk mengubah status menjadi RETURNED.\n' +
-    'Barang akan hilang dari tampilan publik.'
-  );
+  var confirmed = await showConfirmModal({
+    title: 'Verifikasi Pengembalian',
+    message: 'Apakah barang sudah diverifikasi dan diserahkan kepada pemiliknya?\n\nKlik OK untuk mengubah status menjadi RETURNED. Barang akan hilang dari tampilan publik.',
+    confirmText: 'Ya, Serahkan',
+    isDanger: false
+  });
   if (!confirmed) return;
 
   try {
@@ -559,10 +560,12 @@ async function handleMarkReturned(id) {
 
 // ── Handle Delete (Soft Delete) ──
 async function handleDelete(id) {
-  var confirmed = confirm(
-    'Yakin ingin menghapus item ini?\n\n' +
-    'Data akan di-soft-delete dan tidak akan muncul di daftar manapun.'
-  );
+  var confirmed = await showConfirmModal({
+    title: 'Hapus Barang',
+    message: 'Yakin ingin menghapus item ini?\n\nData akan di-soft-delete dan tidak akan muncul di daftar manapun.',
+    confirmText: 'Ya, Hapus',
+    isDanger: true
+  });
   if (!confirmed) return;
 
   try {
@@ -921,5 +924,62 @@ function renderBuildingChart(labels, data, colors) {
         x: { ticks: { color: '#64748b', font: { size: 10 } }, grid: { display: false } }
       }
     }
+  });
+}
+
+// ── Custom Confirmation Modal Helper (Replaces window.confirm) ──
+function showConfirmModal(options) {
+  return new Promise((resolve) => {
+    const modal = document.getElementById('confirmModal');
+    const titleEl = document.getElementById('confirmTitle');
+    const msgEl = document.getElementById('confirmMessage');
+    const submitBtn = document.getElementById('confirmSubmitBtn');
+    const cancelBtn = document.getElementById('confirmCancelBtn');
+    const closeBtn = document.getElementById('confirmCloseBtn');
+
+    if (!modal) {
+      // Fallback in case element is missing
+      resolve(confirm(options.message));
+      return;
+    }
+
+    titleEl.textContent = options.title || 'Konfirmasi';
+    msgEl.innerHTML = options.message.replace(/\n/g, '<br>');
+    submitBtn.textContent = options.confirmText || 'Ya, Lanjutkan';
+    
+    // Style confirm button dynamically based on action severity (Danger = Red, Normal = BINUS Blue)
+    if (options.isDanger) {
+      submitBtn.style.backgroundColor = '#e11d48';
+      submitBtn.style.borderColor = '#e11d48';
+    } else {
+      submitBtn.style.backgroundColor = '#005689';
+      submitBtn.style.borderColor = '#005689';
+    }
+
+    // Display overlay
+    modal.classList.add('active');
+    modal.style.display = 'flex';
+
+    function cleanUp() {
+      modal.classList.remove('active');
+      modal.style.display = 'none';
+      submitBtn.removeEventListener('click', onConfirm);
+      cancelBtn.removeEventListener('click', onCancel);
+      closeBtn.removeEventListener('click', onCancel);
+    }
+
+    function onConfirm() {
+      cleanUp();
+      resolve(true);
+    }
+
+    function onCancel() {
+      cleanUp();
+      resolve(false);
+    }
+
+    submitBtn.addEventListener('click', onConfirm);
+    cancelBtn.addEventListener('click', onCancel);
+    closeBtn.addEventListener('click', onCancel);
   });
 }
